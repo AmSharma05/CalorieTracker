@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html>
+<head>
+<h1 style="color:red">This is the next step in reaching your goal!</h1>
+<h3 style="color:blue">Please enter some foods below so you can keep track of what exactly you eat.</h3>
+</head>
+<h4> Please pick a date to start entering your food</h4>
+<meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Daily Calorie Tracker</title>
+  <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+  <link rel="stylesheet" href="/resources/demos/style.css">
+  <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+  <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+  <script>
+  $( function() {
+    $( "#datepicker").datepicker();
+  } );
+  </script>
+</head>
+<body>
+<form method="POST" onsubmit="setHiddenField()" action="/">
+	<p>Date: <input type="text" id="datepicker" name="datepicker"></p>
+	<label for="foods"> What food item(s) did you eat Today?</label>
+	<select id="foods" name="foods">
+		<option value="103" selected="selected">1 Cup of Milk</option>
+		<option value="136">1 Bowl of Rice</option>
+		<option value="105">1 Banana</option>
+		<option value="79">1 Slice of White Bread</option>
+		<option value="140">1 Bowl of Ice Cream</option>
+  </select>
+  <input type="hidden" id="foodItemName" name="foodItemName"></p>
+  <p><input type="submit" name="Add Food Item">
+</form>
+{% if ErrorMessage %}
+	<br/> {{ErrorMessage}}
+{% else %}	
+	{% if SuccessObject %}
+	   <b> Your Food Intake for this day:</b>
+	    {% for e in SuccessObject %}
+	        <br/> Item: {{ e.itemName }} , Calories: {{e.caloricAmount}}
+	    {% endfor %}
+	{% endif %}
+
+	{% if TotalCalories %}
+		<p> Your total calories consumed for today is: {{TotalCalories}} 
+	{% endif %}
+{% endif %}	
+</body>
+ <script>
+  function setHiddenField() {
+  	var e = document.getElementById("foods");
+  	var selectedText = e.options[e.selectedIndex].text;
+  	document.getElementById("foodItemName").value = selectedText;
+ }
+  </script>
+</html>
